@@ -1,4 +1,4 @@
-package com.notification.notificationhandler.configuration;
+package com.notificationhandler.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +18,8 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests((authz) -> authz
-                        .anyRequest().permitAll()
-                )
+        http.authorizeHttpRequests(auth -> auth
+                        .anyRequest().permitAll())
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }
