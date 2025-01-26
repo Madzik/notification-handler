@@ -16,8 +16,8 @@ public class NotificationService {
 
     private final SnsClient defaultSnsClient;
 
-    @Value("${aws.topic}")
-    private final String topic;
+    @Value("${aws.topic.name}")
+    private String topic;
 
     public void publishMessage(String message) {
         try {
