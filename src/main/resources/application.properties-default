@@ -1,0 +1,9 @@
+spring.application.name=notification-handler
+
+
+#AWS
+aws.region=
+aws.topic.name=
+aws.queue.url=
+aws.accessKey=
+aws.secretKey=

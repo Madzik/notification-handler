@@ -12,7 +12,7 @@ import software.amazon.awssdk.services.sns.model.SnsException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class NotificationService {
+public class NotificationPublisher {
 
     private final SnsClient defaultSnsClient;
 

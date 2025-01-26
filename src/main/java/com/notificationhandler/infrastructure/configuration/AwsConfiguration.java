@@ -1,6 +1,5 @@
 package com.notificationhandler.infrastructure.configuration;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -10,16 +9,25 @@ import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sns.SnsClient;
+import software.amazon.awssdk.services.sqs.SqsClient;
 
 @Configuration
 @ConfigurationProperties(prefix = "aws")
 public class AwsConfiguration {
 
     @Bean
-    @Qualifier("deafultSnsClient")
     public SnsClient defaultSnsClient(@Value("${aws.region}") String region,
                                       AwsCredentialsProvider awsCredentialsProvider) {
         return SnsClient.builder()
+                .credentialsProvider(awsCredentialsProvider)
+                .region(Region.of(region))
+                .build();
+    }
+
+    @Bean
+    public SqsClient defaultSqsClient(@Value("${aws.region}") String region,
+                                      AwsCredentialsProvider awsCredentialsProvider) {
+        return SqsClient.builder()
                 .credentialsProvider(awsCredentialsProvider)
                 .region(Region.of(region))
                 .build();

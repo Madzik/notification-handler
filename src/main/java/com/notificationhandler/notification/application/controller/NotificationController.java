@@ -1,6 +1,7 @@
 package com.notificationhandler.notification.application.controller;
 
-import com.notificationhandler.notification.application.service.NotificationService;
+import com.notificationhandler.notification.application.service.NotificationPublisher;
+import com.notificationhandler.notification.application.service.NotificationSubscriber;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,16 +11,17 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class NotificationController {
 
-    private final NotificationService notificationService;
+    private final NotificationPublisher notificationPublisher;
+    private final NotificationSubscriber notificationSubscriber;
 
     @PostMapping
     public ResponseEntity<Void> publishNotification(@RequestBody String message) {
-        notificationService.publishMessage(message);
+        notificationPublisher.publishMessage(message);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
     public ResponseEntity<String> getNotification() {
-        return ResponseEntity.ok("Sample message");
+        return ResponseEntity.ok(notificationSubscriber.consumeMessage());
     }
 }
