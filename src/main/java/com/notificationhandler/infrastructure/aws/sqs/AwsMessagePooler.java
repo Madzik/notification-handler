@@ -1,8 +1,5 @@
 package com.notificationhandler.infrastructure.aws.sqs;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public interface AwsMessagePooler {
 
     Integer MAX_NUMBER_OF_MESSAGES = 10;
