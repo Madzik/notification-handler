@@ -1,8 +1,7 @@
-package com.notificationhandler.notification.application.service;
+package com.notificationhandler.infrastructure.aws.sns;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sns.model.PublishRequest;
@@ -12,18 +11,15 @@ import software.amazon.awssdk.services.sns.model.SnsException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class NotificationPublisher {
+public abstract class NotificationPublisher {
 
     private final SnsClient defaultSnsClient;
-
-    @Value("${aws.topic.name}")
-    private String topic;
 
     public void publishMessage(String message) {
         try {
             PublishRequest publishRequest = PublishRequest.builder()
                     .message(message)
-                    .topicArn(topic)
+                    .topicArn(getTopic())
                     .build();
 
             PublishResponse publishResponse = defaultSnsClient.publish(publishRequest);
@@ -32,4 +28,6 @@ public class NotificationPublisher {
             log.error("Publish request exception {} ", exception.getMessage());
         }
     }
+
+    public abstract String getTopic();
 }
