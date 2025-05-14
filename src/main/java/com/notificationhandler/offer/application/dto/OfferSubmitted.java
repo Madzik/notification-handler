@@ -1,4 +1,4 @@
-package com.notificationhandler.notification.application.dto;
+package com.notificationhandler.offer.application.dto;
 
 import com.notificationhandler.notification.application.domain.model.DomainEvent;
 import lombok.Getter;
