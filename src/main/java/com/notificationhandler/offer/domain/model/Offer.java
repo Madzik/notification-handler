@@ -1,5 +1,6 @@
 package com.notificationhandler.offer.domain.model;
 
+import com.notificationhandler.product.domain.model.Product;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

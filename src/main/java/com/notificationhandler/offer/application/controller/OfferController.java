@@ -1,6 +1,6 @@
 package com.notificationhandler.offer.application.controller;
 
-import com.notificationhandler.offer.application.dto.OfferSubmitted;
+import com.notificationhandler.offer.application.dto.ProductOffer;
 import com.notificationhandler.offer.application.service.OfferService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +17,8 @@ public class OfferController {
     private final OfferService offerService;
 
     @PostMapping
-    public ResponseEntity<Void> submitOffer(@RequestBody OfferSubmitted offerSubmitted) {
-        offerService.submitOffer(offerSubmitted);
+    public ResponseEntity<Void> submitOffer(@RequestBody ProductOffer productOffer) {
+        offerService.submitOffer(productOffer);
         return ResponseEntity.accepted().build();
     }
 }

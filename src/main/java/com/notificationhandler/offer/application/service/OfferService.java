@@ -1,17 +1,31 @@
 package com.notificationhandler.offer.application.service;
 
-import com.notificationhandler.notification.application.service.NotificationPublisher;
-import com.notificationhandler.offer.application.dto.OfferSubmitted;
+import com.notificationhandler.infrastructure.aws.sns.NotificationPublisher;
+import com.notificationhandler.offer.application.dto.ProductOffer;
+import com.notificationhandler.offer.domain.model.Offer;
+import com.notificationhandler.offer.infrastructure.persistence.OfferRepository;
+import com.notificationhandler.product.application.service.ProductService;
+import com.notificationhandler.product.domain.model.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class OfferService {
 
     private final NotificationPublisher notificationPublisher;
+    private final OfferRepository offerRepository;
+    private final ProductService productService;
 
-    public void submitOffer(OfferSubmitted offerSubmitted) {
-        notificationPublisher.publishMessage(offerSubmitted.getOfferID().toString());
+    public void submitOffer(ProductOffer productOffer) {
+        Product productOffered = productService.findAll().stream()
+                .filter(product -> Objects.equals(product.getId(), productOffer.productId()))
+                .findFirst().orElseThrow();
+
+        Offer offer = new Offer(productOffered, productOffer.unitOfMeasurement(), productOffer.unitType(), productOffer.units());
+        offerRepository.save(offer);
+        //notificationPublisher.publishMessage(offerSubmitted.getOfferID().toString());
     }
 }
