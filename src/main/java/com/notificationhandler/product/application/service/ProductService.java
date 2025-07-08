@@ -4,11 +4,13 @@ import com.notificationhandler.product.application.dto.ProductToAdd;
 import com.notificationhandler.product.domain.model.Product;
 import com.notificationhandler.product.infrastructure.persistance.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -20,6 +22,12 @@ public class ProductService {
 
     @Transactional
     public void add(ProductToAdd productToAdd) {
+        boolean productExists = this.findAll().stream().anyMatch(product -> product.getName().equals(productToAdd.name()));
+
+        if (productExists) {
+            log.warn("Product with name {} already exists.", productToAdd.name());
+            return;
+        }
         Product product = new Product(productToAdd.name(), productToAdd.category());
         productRepository.save(product);
     }
