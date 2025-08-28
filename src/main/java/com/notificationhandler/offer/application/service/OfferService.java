@@ -10,9 +10,6 @@ import com.notificationhandler.product.domain.model.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.lang.module.ResolutionException;
-import java.util.Objects;
-
 @Service
 @RequiredArgsConstructor
 public class OfferService {
@@ -22,12 +19,10 @@ public class OfferService {
     private final ProductService productService;
 
     public void submitOffer(ProductOffered productOffer) {
-        Product productOffered = productService.findAll().stream()
-                .filter(product -> Objects.equals(product.getId(), productOffer.productId()))
-                .findFirst().orElseThrow(() -> new ResolutionException("Product not found."));
+        Product productOffered = productService.findBy(productOffer.productId());
 
         Offer offer = new Offer(productOffered, productOffer.unitOfMeasurement(), productOffer.unitType(), productOffer.units());
-        offerRepository.save(offer);
-        notificationPublisher.publishMessage(new OfferSubmitted(productOffer.productId()));
+        Offer offerSaved = offerRepository.save(offer);
+        notificationPublisher.publishMessage(new OfferSubmitted(offerSaved.getId()));
     }
 }

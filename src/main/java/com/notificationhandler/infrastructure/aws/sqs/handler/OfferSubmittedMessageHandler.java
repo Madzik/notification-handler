@@ -2,7 +2,7 @@ package com.notificationhandler.infrastructure.aws.sqs.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.notificationhandler.notification.application.dto.OfferSubmitted;
+import com.notificationhandler.offer.domain.model.OfferSubmitted;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
