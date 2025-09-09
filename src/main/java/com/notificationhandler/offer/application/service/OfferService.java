@@ -23,6 +23,6 @@ public class OfferService {
 
         Offer offer = new Offer(productOffered, productOffer.unitOfMeasurement(), productOffer.unitType(), productOffer.units());
         Offer offerSaved = offerRepository.save(offer);
-        notificationPublisher.publishMessage(new OfferSubmitted(offerSaved.getId()));
+        notificationPublisher.publishMessage(new OfferSubmitted(offerSaved.getId(), productOffered.getCategory()));
     }
 }

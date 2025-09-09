@@ -23,8 +23,7 @@ public class Offer {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "productId")
-    @Column(nullable = false)
+    @JoinColumn(name = "productId", nullable = false)
     private Product product;
 
     @Column(nullable = false)
