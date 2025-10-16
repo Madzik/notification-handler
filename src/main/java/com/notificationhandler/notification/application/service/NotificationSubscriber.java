@@ -21,7 +21,7 @@ public class NotificationSubscriber {
     private final SqsClient defaultSqsClient;
     private final ObjectMapper objectMapper;
 
-    @Value("${aws.queue.url}")
+    @Value("${aws.queue.offerSubmitted}")
     private String queueUrl;
 
     public void consumeMessage() throws Exception {
