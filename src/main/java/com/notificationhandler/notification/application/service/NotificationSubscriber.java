@@ -31,6 +31,12 @@ public class NotificationSubscriber {
                     .build();
 
             ReceiveMessageResponse response = defaultSqsClient.receiveMessage(request);
+
+            if (!response.hasMessages()) {
+                log.info("No messages in the queue");
+                return;
+            }
+
             response.messages().forEach(message -> {
                 try {
                     OfferSubmitted offer = objectMapper.readValue(message.body(), OfferSubmitted.class);
