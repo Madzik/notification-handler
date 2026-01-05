@@ -1,13 +1,13 @@
 package com.notificationhandler.notification.application.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.notificationhandler.offer.domain.model.OfferSubmitted;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.ReceiveMessageRequest;
 import software.amazon.awssdk.services.sqs.model.ReceiveMessageResponse;
@@ -39,10 +39,16 @@ public class NotificationSubscriber {
 
             response.messages().forEach(message -> {
                 try {
-                    OfferSubmitted offer = objectMapper.readValue(message.body(), OfferSubmitted.class);
-                    Assert.isInstanceOf(OfferSubmitted.class, offer);
-                    log.info("Received offer {} ", offer.getId());
-                    log.info("Message body {} ", message.body());
+                    message.getValueForField("Message", OfferSubmitted.class).ifPresent(value ->
+                            log.info("id" + value.getId()));
+
+                    JsonNode rootNode = objectMapper.readTree(message.body());
+                    String messageAsText = rootNode.get("Message").asText();
+                    JsonNode offerNode = objectMapper.readTree(messageAsText);
+                    String productCategory = offerNode.get("productCategory").asText();
+                    Integer productId = offerNode.get("id").asInt();
+
+                    log.info("Received offer for product: {}, id: {}", productCategory, productId);
                 } catch (JsonProcessingException e) {
                     throw new RuntimeException(e);
                 }

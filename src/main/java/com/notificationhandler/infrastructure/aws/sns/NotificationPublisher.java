@@ -1,5 +1,7 @@
 package com.notificationhandler.infrastructure.aws.sns;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.notificationhandler.notification.application.domain.model.DomainEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,7 @@ import software.amazon.awssdk.services.sns.model.SnsException;
 public abstract class NotificationPublisher {
 
     private final SnsClient defaultSnsClient;
+    private final ObjectMapper objectMapper;
 
     public void publishMessage(String message) {
         try {
@@ -33,7 +36,7 @@ public abstract class NotificationPublisher {
     public void publishMessage(DomainEvent domainEvent) {
         try {
             PublishRequest publishRequest = PublishRequest.builder()
-                    .message(domainEvent.toString())
+                    .message(objectMapper.writeValueAsString(domainEvent))
                     .topicArn(getTopic())
                     .build();
 
@@ -41,6 +44,8 @@ public abstract class NotificationPublisher {
             log.info("Publish response id {} ", publishResponse.messageId());
         } catch (SnsException exception) {
             log.error("Publish request exception {} ", exception.getMessage());
+        } catch (JsonProcessingException exception) {
+            log.error("Parsing exception {} ", exception.getMessage());
         }
     }
 
