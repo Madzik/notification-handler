@@ -31,19 +31,24 @@ public class Offer {
     private UnitOfMeasurement unitOfMeasurement;
 
     @Column(nullable = false)
-    private String unitType;
+    private Double units;
 
     @Column(nullable = false)
-    private Double units;
+    @Enumerated(EnumType.STRING)
+    private OfferStatus status;
 
     protected Offer() {
     }
 
-    public Offer(Product product, UnitOfMeasurement unitOfMeasurement, String unitType, Double units) {
+    public Offer(Product product, UnitOfMeasurement unitOfMeasurement, Double units, OfferStatus status) {
         this.product = product;
         this.unitOfMeasurement = unitOfMeasurement;
-        this.unitType = unitType;
+        this.status = status;
         this.units = units;
+    }
+
+    public void reserve() {
+        this.status = OfferStatus.RESERVED;
     }
 
 }

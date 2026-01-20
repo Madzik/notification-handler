@@ -1,7 +1,7 @@
 package com.notificationhandler.notification.application.controller;
 
 import com.notificationhandler.infrastructure.aws.sns.NotificationPublisher;
-import com.notificationhandler.notification.application.service.NotificationSubscriber;
+import com.notificationhandler.notification.infrastructure.NotificationSubscriber;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

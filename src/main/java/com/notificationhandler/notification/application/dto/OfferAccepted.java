@@ -8,5 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OfferAccepted extends DomainEvent {
-    private Integer offerID;
+
+    public OfferAccepted(Integer productAcceptedId) {
+        super(productAcceptedId);
+    }
 }

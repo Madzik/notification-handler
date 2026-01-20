@@ -37,7 +37,7 @@ public class OfferSubmittedNotificationSubscriber extends NotificationSubscriber
             Integer productId = offerNode.get("id").asInt();
             log.info("Received offer for product: {}, id: {}", productCategory, productId);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            log.error("Json parsing error {}", e.getMessage());
         }
     }
 }

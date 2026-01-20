@@ -12,3 +12,14 @@ INSERT INTO product (id, name, category)
 VALUES (6, 'Milk', 'DAIRY');
 INSERT INTO product (id, name, category)
 VALUES (7, 'Yogurt', 'DAIRY');
+
+INSERT INTO offer (id, productId, unitOfMeasurement, units, status)
+VALUES (1, 4, 'PACKAGE', 1.0, 'SUBMITTED');
+INSERT INTO product_offered (id, productId, unitOfMeasurement, units, status)
+VALUES (2, 5, 'PACKAGE', 1.0, 'SUBMITTED');
+INSERT INTO product_offered (id, productId, unitOfMeasurement, units, status)
+VALUES (3, 1, 'PACKAGE', 1.0, 'SUBMITTED');
+INSERT INTO product_offered (id, productId, unitOfMeasurement, units, status)
+VALUES (4, 1, 'PACKAGE', 1.0, 'RESERVED');
+INSERT INTO product_offered (id, productId, unitOfMeasurement, units, status)
+VALUES (5, 2, 'PACKAGE', 1.0, 'TAKEN');
