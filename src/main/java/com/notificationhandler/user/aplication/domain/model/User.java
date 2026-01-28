@@ -1,42 +1,40 @@
-package com.notificationhandler.product.domain.model;
+package com.notificationhandler.user.aplication.domain.model;
 
 import com.notificationhandler.userproduct.domain.UserProductSubscription;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import lombok.Getter;
+import jakarta.persistence.Table;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter
 @Entity
-public class Product {
+@Table
+public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
-    private String name;
+    private String username;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private ProductCategory category;
+    private boolean active;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserProductSubscription> subscriptions = new HashSet<>();
 
-    protected Product() {
+    protected User() {
     }
 
-    public Product(String name, ProductCategory category) {
-        this.name = name;
-        this.category = category;
+    public User(String username) {
+        this.username = username;
+        this.active = true;
     }
 }
