@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.notificationhandler.notification.application.dto.OfferAccepted;
-import com.notificationhandler.notification.infrastructure.NotificationSubscriber;
+import com.notificationhandler.notification.infrastructure.AbstractNotificationSubscriber;
 import com.notificationhandler.offer.application.service.OfferService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,15 +14,15 @@ import software.amazon.awssdk.services.sqs.model.Message;
 
 @Slf4j
 @Service
-public class OfferAcceptedNotificationSubscriber extends NotificationSubscriber {
+public class OfferAcceptedAbstractNotificationSubscriber extends AbstractNotificationSubscriber {
 
     @Value("${aws.queue.offerAccepted}")
     private String queueUrl;
 
     private OfferService offerService;
 
-    public OfferAcceptedNotificationSubscriber(SqsClient defaultSqsClient, ObjectMapper objectMapper,
-                                               OfferService offerService) {
+    public OfferAcceptedAbstractNotificationSubscriber(SqsClient defaultSqsClient, ObjectMapper objectMapper,
+                                                       OfferService offerService) {
         super(defaultSqsClient, objectMapper);
         this.offerService = offerService;
     }

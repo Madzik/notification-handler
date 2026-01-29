@@ -6,16 +6,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.notificationhandler.offer.domain.model.OfferSubmitted;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.Message;
 
 @Slf4j
-public class OfferSubmittedNotificationSubscriber extends NotificationSubscriber {
+@Service
+public class OfferSubmittedAbstractNotificationSubscriber extends AbstractNotificationSubscriber {
 
     @Value("${aws.queue.offerSubmitted}")
     private String queueUrl;
 
-    public OfferSubmittedNotificationSubscriber(SqsClient defaultSqsClient, ObjectMapper objectMapper) {
+    public OfferSubmittedAbstractNotificationSubscriber(SqsClient defaultSqsClient, ObjectMapper objectMapper) {
         super(defaultSqsClient, objectMapper);
     }
 

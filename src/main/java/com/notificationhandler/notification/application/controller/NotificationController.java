@@ -1,7 +1,7 @@
 package com.notificationhandler.notification.application.controller;
 
 import com.notificationhandler.infrastructure.aws.sns.NotificationPublisher;
-import com.notificationhandler.notification.infrastructure.NotificationSubscriber;
+import com.notificationhandler.notification.application.domain.model.NotificationSubscriber;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Base64;
+import java.util.List;
 
 @RestController()
 @RequestMapping("/notifications")
@@ -18,7 +19,7 @@ import java.util.Base64;
 public class NotificationController {
 
     private final NotificationPublisher notificationPublisher;
-    private final NotificationSubscriber notificationSubscriber;
+    private final List<NotificationSubscriber> subscribers;
 
     @PostMapping
     public ResponseEntity<Void> publishNotification(@RequestBody String message) {
@@ -29,7 +30,7 @@ public class NotificationController {
     @GetMapping
     public ResponseEntity<Void> getNotification() {
         try {
-            notificationSubscriber.consumeMessage();
+            subscribers.forEach(NotificationSubscriber::consumeMessage);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
