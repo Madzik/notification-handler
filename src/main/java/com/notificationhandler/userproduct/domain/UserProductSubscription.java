@@ -1,7 +1,7 @@
 package com.notificationhandler.userproduct.domain;
 
 import com.notificationhandler.product.domain.model.Product;
-import com.notificationhandler.user.aplication.domain.model.User;
+import com.notificationhandler.user.aplication.domain.model.AppUser;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,10 +22,10 @@ public class UserProductSubscription {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", nullable = false, referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
+    private AppUser user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "productId", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "product_id", nullable = false, referencedColumnName = "id")
     private Product product;
 }

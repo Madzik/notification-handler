@@ -14,8 +14,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table
-public class User {
+@Table(name = "app_user")
+public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +30,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserProductSubscription> subscriptions = new HashSet<>();
 
-    protected User() {
+    protected AppUser() {
     }
 
-    public User(String username) {
+    public AppUser(String username) {
         this.username = username;
         this.active = true;
     }
